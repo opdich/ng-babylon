@@ -1,0 +1,65 @@
+@import "./vars";
+
+// Margin + padding
+@mixin m-p-list {
+  @for $i from 0 through 5 {
+    .pt-#{$i} {
+      padding-top: $unit-spacer * $i !important;
+    }
+    .pr-#{$i} {
+      padding-right: $unit-spacer * $i !important;
+    }
+    .pb-#{$i} {
+      padding-bottom: $unit-spacer * $i !important;
+    }
+    .pl-#{$i} {
+      padding-left: $unit-spacer * $i !important;
+    }
+    .mt-#{$i} {
+      margin-top: $unit-spacer * $i !important;
+    }
+    .mr-#{$i} {
+      margin-right: $unit-spacer * $i !important;
+    }
+    .mb-#{$i} {
+      margin-bottom: $unit-spacer * $i !important;
+    }
+    .ml-#{$i} {
+      margin-left: $unit-spacer * $i !important;
+    }
+  }
+}
+@include m-p-list;
+
+.spacer {
+  flex: 1;
+}
+
+.uc {
+  text-transform: uppercase;
+}
+
+button,
+a {
+  &.fill {
+    display: block;
+    width: 100% !important;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.fade {
+  transition: opacity 400ms;
+  &.full-remove {
+    transition: opacity 400ms, visibility 0ms 400ms;
+  }
+  &.deactivate {
+    opacity: 0;
+    &.full-remove {
+      visibility: hidden;
+    }
+  }
+}

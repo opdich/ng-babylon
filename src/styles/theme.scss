@@ -1,0 +1,5 @@
+@import "./vars";
+
+/* ======== Angular material custom themes ======== */
+@include mat-core($typography-base);
+@include angular-material-theme($theme);

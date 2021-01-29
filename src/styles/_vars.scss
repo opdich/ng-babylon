@@ -1,0 +1,21 @@
+@import "~@angular/material/theming";
+@import "./color";
+
+/* Theming */
+$palette-primary: mat-palette($color-blush);
+$palette-accent: mat-palette($color-teal);
+$theme: mat-light-theme($palette-primary, $palette-accent);
+
+/* Layout */
+$unit-spacer: 8px;
+$h-nav: 56px;
+$h-logo: 28px;
+$h-footer: 0;
+
+/* Fonts */
+$typography-header: mat-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+);
+$typography-base: mat-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+);
