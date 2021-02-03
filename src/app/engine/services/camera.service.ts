@@ -42,14 +42,14 @@ export class CameraService {
     this.camera = new AxonCamera(
       'cameraMain',
       this.rotAxon,
-      config.camera.scale_factor,
-      config.camera.scale_delta,
-      config.camera.scale_upper_limit,
-      config.camera.scal_lower_limit,
-      config.camera.pan_max_x,
-      config.camera.pan_min_x,
-      config.camera.pan_max_z,
-      config.camera.pan_min_z,
+      config.camera.ortho.scale_factor,
+      config.camera.ortho.scale_delta,
+      config.camera.ortho.scale_upper_limit,
+      config.camera.ortho.scal_lower_limit,
+      config.camera.ortho.pan_max_x,
+      config.camera.ortho.pan_min_x,
+      config.camera.ortho.pan_max_z,
+      config.camera.ortho.pan_min_z,
       scene
     );
     // Attach it and set active

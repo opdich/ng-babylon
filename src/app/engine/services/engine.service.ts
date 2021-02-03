@@ -35,11 +35,11 @@ export class EngineService {
     this._cs.loadCamera(this._canvas, this._scene);
 
     /* Load Assets */
-    // this._assetManagerService.setScene(this._scene);
-    // this._assetManagerService.loadEnvironment(
-    //   [this._cameraService.camera],
-    //   new Color4(0.2, 0.42, 0.8, 1)
-    // ); //// TODO: need this to apply to all cameras in scene
+    this._ams.setScene(this._scene);
+    this._ams.loadEnvironment(
+      [this._cs.camera]
+      // new Color4(0.2, 0.42, 0.8, 1)
+    );
 
     const box = MeshBuilder.CreateBox('box', {}, this._scene);
   }
