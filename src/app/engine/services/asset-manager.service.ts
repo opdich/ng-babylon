@@ -2,20 +2,15 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
   Scene,
-  SceneLoader,
   Color3,
   Color4,
   CubeTexture,
-  Vector3,
   GlowLayer,
-  AssetContainer,
   FxaaPostProcess,
   TonemapPostProcess,
   ImageProcessingPostProcess,
-  TonemappingOperator,
   Camera,
   DirectionalLight,
-  Texture,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import { config } from 'src/app/_config';
