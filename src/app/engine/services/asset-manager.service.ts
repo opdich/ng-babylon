@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 import {
   Scene,
   Color3,
@@ -15,6 +14,8 @@ import {
   PBRMaterial,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { config } from 'src/app/_config';
 
 const ASSET_PATH = 'assets/webgl/';
@@ -23,6 +24,8 @@ const ASSET_PATH = 'assets/webgl/';
   providedIn: 'root',
 })
 export class AssetManagerService implements OnDestroy {
+  private _isInit$: ReplaySubject<boolean> = new ReplaySubject(1);
+
   private _sub: Subscription = new Subscription();
   private _scene: Scene;
   private _sun: DirectionalLight;
@@ -35,6 +38,11 @@ export class AssetManagerService implements OnDestroy {
 
   setScene(scene: Scene): void {
     this._scene = scene;
+    this._isInit$.next(true);
+  }
+
+  checkInit$(): Observable<boolean> {
+    return this._isInit$.pipe(take(1));
   }
 
   loadEnvironment(cameras: Camera[]): void {
@@ -94,5 +102,21 @@ export class AssetManagerService implements OnDestroy {
     pbrMat.metallic = 0;
     pbrMat.ambientColor = Color3.FromHexString('#283448');
     box.material = pbrMat;
+  }
+
+  createBasicPBRMat(
+    albedo: string | Color3 = '#526278',
+    ambient: string | Color3 = '#283448',
+    roughness: number = 0.9,
+    metallic: number = 0
+  ): PBRMaterial {
+    const mat = new PBRMaterial('pbr', this._scene);
+    mat.albedoColor =
+      typeof albedo === 'string' ? Color3.FromHexString(albedo) : albedo;
+    mat.ambientColor =
+      typeof ambient === 'string' ? Color3.FromHexString(ambient) : ambient;
+    mat.roughness = roughness;
+    mat.metallic = metallic;
+    return mat;
   }
 }

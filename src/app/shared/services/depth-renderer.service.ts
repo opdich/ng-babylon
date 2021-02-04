@@ -47,6 +47,14 @@ export class DepthRendererService implements OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this._scene.onBeforeRenderObservable.clear();
+  }
+
+  checkInit$(): Observable<boolean> {
+    return this._isInit$.pipe(take(1));
+  }
+
   addOBR(
     inputCoords: Vector3[],
     outputFn: (screenCoords: Vector3, i: number) => void
@@ -73,13 +81,5 @@ export class DepthRendererService implements OnDestroy {
         });
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this._scene.onBeforeRenderObservable.clear();
-  }
-
-  checkInit$(): Observable<boolean> {
-    return this._isInit$.pipe(take(1));
   }
 }
