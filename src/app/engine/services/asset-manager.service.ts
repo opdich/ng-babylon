@@ -40,39 +40,38 @@ export class AssetManagerService implements OnDestroy {
     this._scene = scene;
   }
 
-  loadEnvironment(
-    cameras: Camera[],
-    hdrFile: string = 'hdr/photo_studio.env',
-    clear: Color4 = new Color4(1, 1, 1, 1),
-    ambient: Color3 = new Color3(1, 1, 1),
-    sunDiffuse: Color3 = new Color3(1, 1, 0.9),
-    sunDirection: Vector3 = new Vector3(1, -3, 0)
-  ): void {
+  loadEnvironment(cameras: Camera[]): void {
     // Set scene coloration
-    this._scene.clearColor = clear;
-    this._scene.ambientColor = ambient;
+    this._scene.clearColor = Color4.FromHexString(config.engine.env.clearHex);
+    this._scene.ambientColor = Color3.FromHexString(
+      config.engine.env.ambientHex
+    );
 
     // Set lighting
     // HDR
     let hdrTexture = CubeTexture.CreateFromPrefilteredData(
-      ASSET_PATH + hdrFile,
+      `${ASSET_PATH}hdr/${config.engine.env.hdr.file}`,
       this._scene
     );
     this._scene.environmentTexture = hdrTexture;
-    this._scene.environmentIntensity = 3;
+    this._scene.environmentIntensity = config.engine.env.hdr.intensity;
 
     // Directional Light
-    this._sun = new DirectionalLight('sun', sunDirection, this._scene);
-    this._sun.intensity = 0.5;
-    this._sun.diffuse = sunDiffuse;
+    this._sun = new DirectionalLight(
+      'sun',
+      config.engine.env.sun.dir,
+      this._scene
+    );
+    this._sun.intensity = config.engine.env.sun.intensity;
+    this._sun.diffuse = Color3.FromHexString(config.engine.env.sun.diffuse);
 
     // Set filters - needs to be done for each camera in scene
     cameras.forEach((camera) => {
       const fxaaProcess = new FxaaPostProcess('fxaa', 1.0, camera);
       const tonemapProcess = new TonemapPostProcess(
         'tonemap',
-        TonemappingOperator.Photographic,
-        config.camera.settings.exposure,
+        config.camera.settings.tonemap,
+        1,
         camera
       );
       const postProcess = new ImageProcessingPostProcess(
@@ -81,6 +80,7 @@ export class AssetManagerService implements OnDestroy {
         camera
       );
       postProcess.contrast = config.camera.settings.contrast;
+      postProcess.exposure = config.camera.settings.exposure;
     });
 
     // Set effects

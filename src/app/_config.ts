@@ -1,4 +1,26 @@
+import { TonemappingOperator, Vector3 } from '@babylonjs/core';
+
 export const config = {
+  engine: {
+    env: {
+      clearHex: '#ffffffff',
+      ambientHex: '#ffffff',
+      hdr: {
+        file: 'photo_studio.env',
+        intensity: 1,
+      },
+      sun: {
+        diffuse: '#ffffff',
+        dir: new Vector3(1, -3, 0),
+        intensity: 0.3,
+      },
+    },
+    center_offset: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+  },
   camera: {
     ortho: {
       scale_factor: 200,
@@ -11,13 +33,9 @@ export const config = {
       pan_min_z: -75,
     },
     settings: {
+      tonemap: TonemappingOperator.Photographic,
       exposure: 2,
-      contrast: 1.5,
-    },
-    center_offset: {
-      x: 1333,
-      y: 0,
-      z: 26,
+      contrast: 1,
     },
   },
 };
