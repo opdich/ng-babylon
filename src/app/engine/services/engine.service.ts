@@ -1,6 +1,13 @@
 import { ElementRef, Injectable, NgZone } from '@angular/core';
 
-import { Engine, Scene, Color4, MeshBuilder } from '@babylonjs/core';
+import {
+  Engine,
+  Scene,
+  Color4,
+  MeshBuilder,
+  PBRMaterial,
+  Color3,
+} from '@babylonjs/core';
 
 import { AssetManagerService } from './asset-manager.service';
 import { CameraService } from './camera.service';
@@ -36,12 +43,15 @@ export class EngineService {
 
     /* Load Assets */
     this._ams.setScene(this._scene);
-    this._ams.loadEnvironment(
-      [this._cs.camera]
-      // new Color4(0.2, 0.42, 0.8, 1)
-    );
+    this._ams.loadEnvironment([this._cs.camera]);
 
     const box = MeshBuilder.CreateBox('box', {}, this._scene);
+    let pbrMat = new PBRMaterial('name', this._scene);
+    pbrMat.albedoColor = Color3.FromHexString('#526278');
+    pbrMat.roughness = 0.9;
+    pbrMat.metallic = 0;
+    pbrMat.ambientColor = Color3.FromHexString('#283448');
+    box.material = pbrMat;
   }
 
   animate(): void {
