@@ -11,6 +11,8 @@ import {
   ImageProcessingPostProcess,
   Camera,
   DirectionalLight,
+  MeshBuilder,
+  PBRMaterial,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import { config } from 'src/app/_config';
@@ -81,5 +83,16 @@ export class AssetManagerService implements OnDestroy {
     // Set effects
     const gl = new GlowLayer('glow', this._scene);
     gl.intensity = 0.4;
+  }
+
+  loadDefaultBox(): void {
+    const box = MeshBuilder.CreateBox('box', {}, this._scene);
+
+    const pbrMat = new PBRMaterial('pbr', this._scene);
+    pbrMat.albedoColor = Color3.FromHexString('#526278');
+    pbrMat.roughness = 0.9;
+    pbrMat.metallic = 0;
+    pbrMat.ambientColor = Color3.FromHexString('#283448');
+    box.material = pbrMat;
   }
 }

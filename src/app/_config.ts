@@ -23,6 +23,7 @@ export const config = {
   },
   camera: {
     ortho: {
+      rot_angle: (3 * Math.PI) / 4,
       scale_factor: 200,
       scale_delta: 0.9,
       scale_upper_limit: 20,

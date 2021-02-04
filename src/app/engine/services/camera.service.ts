@@ -18,7 +18,6 @@ import { config } from 'src/app/_config';
 })
 export class CameraService {
   camera: AxonCamera;
-  readonly rotAxon = (3 * Math.PI) / 4;
   private _ease: SineEase = new SineEase();
   private _identity: Matrix = Matrix.Identity();
   private _plane: Plane = Plane.FromPositionAndNormal(
@@ -41,7 +40,7 @@ export class CameraService {
   loadCamera(canvas: HTMLCanvasElement, scene: Scene) {
     this.camera = new AxonCamera(
       'cameraMain',
-      this.rotAxon,
+      config.camera.ortho.rot_angle,
       config.camera.ortho.scale_factor,
       config.camera.ortho.scale_delta,
       config.camera.ortho.scale_upper_limit,
