@@ -13,9 +13,9 @@ import { CameraService } from './camera.service';
   providedIn: 'root',
 })
 export class EngineService {
-  private _canvas: HTMLCanvasElement;
-  private _engine: Engine;
-  private _scene: Scene;
+  canvas: HTMLCanvasElement;
+  engine: Engine;
+  scene: Scene;
 
   constructor(
     private _ngZone: NgZone,
@@ -26,21 +26,21 @@ export class EngineService {
 
   buildScene(canvas: ElementRef<HTMLCanvasElement>): void {
     /* Boilerplate */
-    this._canvas = canvas.nativeElement;
-    this._engine = new Engine(this._canvas, true, { stencil: true });
+    this.canvas = canvas.nativeElement;
+    this.engine = new Engine(this.canvas, true, { stencil: true });
 
     /* Init Scene */
-    this._scene = new Scene(this._engine);
-    this._scene.resetLastAnimationTimeFrame(); // Enables animations during loading
+    this.scene = new Scene(this.engine);
+    this.scene.resetLastAnimationTimeFrame(); // Enables animations during loading
 
     // Build the cameras
-    this._cs.loadCamera(this._canvas, this._scene);
+    this._cs.loadCamera(this.canvas, this.scene);
 
     // Start the depth renderer
-    this._drs.setRenderer(this._engine, this._scene, this._cs.camera);
+    this._drs.setRenderer(this.engine, this.scene, this._cs.camera);
 
     /* Load Assets */
-    this._ams.setScene(this._scene);
+    this._ams.setScene(this.scene);
     this._ams.loadEnvironment([this._cs.camera]);
     this._ams.loadDefaultBox();
   }
@@ -50,19 +50,19 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this._ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-        this._scene.render();
+        this.scene.render();
       };
 
       if (document.readyState !== 'loading') {
-        this._engine.runRenderLoop(rendererLoopCallback);
+        this.engine.runRenderLoop(rendererLoopCallback);
       } else {
         window.addEventListener('DOMContentLoaded', () => {
-          this._engine.runRenderLoop(rendererLoopCallback);
+          this.engine.runRenderLoop(rendererLoopCallback);
         });
       }
 
       window.addEventListener('resize', () => {
-        this._engine.resize();
+        this.engine.resize();
         this._cs.resize();
       });
     });

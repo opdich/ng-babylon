@@ -17,6 +17,7 @@ import { config } from 'src/app/_config';
   providedIn: 'root',
 })
 export class CameraService {
+  scene: Scene;
   camera: AxonCamera;
   private _ease: SineEase = new SineEase();
   private _identity: Matrix = Matrix.Identity();
@@ -38,6 +39,7 @@ export class CameraService {
   }
 
   loadCamera(canvas: HTMLCanvasElement, scene: Scene) {
+    this.scene = scene;
     this.camera = new AxonCamera(
       'cameraMain',
       config.camera.ortho.rot_angle,

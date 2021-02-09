@@ -56,14 +56,14 @@ export class DepthRendererService implements OnDestroy {
   }
 
   addOBR(
-    inputCoords: Vector3[],
-    outputFn: (screenCoords: Vector3, i: number) => void
+    inputCallback: () => Vector3[],
+    outputCallback: (screenCoords: Vector3, i: number) => void
   ): void {
     this.checkInit$().subscribe(() => {
       this._scene.onBeforeRenderObservable.add(() => {
         this._depthMap.readPixels(0, 0, this._buffer);
 
-        inputCoords.forEach((coord, i) => {
+        inputCallback().forEach((coord, i) => {
           let posInViewProj = Vector3.TransformCoordinates(
             coord,
             this._scene.getTransformMatrix()
@@ -77,7 +77,7 @@ export class DepthRendererService implements OnDestroy {
               1
             );
 
-          outputFn(screenCoords, i);
+          outputCallback(screenCoords, i);
         });
       });
     });
