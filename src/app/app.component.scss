@@ -1,0 +1,10 @@
+@import "src/styles/vars";
+@import "src/styles/atomic";
+@import "src/styles/helpers";
+
+ui-splash-loader {
+  z-index: z("high");
+  position: absolute;
+  top: 0;
+  @include fill;
+}
