@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DepthRendererService implements OnDestroy {
-  private _isInit$: ReplaySubject<boolean> = new ReplaySubject();
+  private _isInit$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   private _engine: Engine;
   private _camera: Camera;

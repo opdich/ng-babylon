@@ -64,7 +64,7 @@ export class CameraService {
     duration: number = 400,
     onComplete: () => void = () => {}
   ): void {
-    let ray: Ray = this.camera.scene.createPickingRay(
+    let ray: Ray = this.scene.createPickingRay(
       0,
       0,
       this._identity,
@@ -108,8 +108,8 @@ export class CameraService {
     });
 
     // Set the target to the middle of the screen
-    const canvas = this.camera.scene.getEngine().getRenderingCanvas();
-    let ray = this.camera.scene.createPickingRay(
+    const canvas = this.scene.getEngine().getRenderingCanvas();
+    let ray = this.scene.createPickingRay(
       canvas.width / 2,
       canvas.height / 2,
       this._identity,
