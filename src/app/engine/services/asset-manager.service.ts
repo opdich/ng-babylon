@@ -27,8 +27,9 @@ export class AssetManagerService implements OnDestroy {
   private _isInit$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   private _sub: Subscription = new Subscription();
-  private _scene: Scene;
   private _sun: DirectionalLight;
+
+  scene: Scene;
 
   constructor() {}
 
@@ -37,7 +38,7 @@ export class AssetManagerService implements OnDestroy {
   }
 
   setScene(scene: Scene): void {
-    this._scene = scene;
+    this.scene = scene;
     this._isInit$.next(true);
   }
 
@@ -47,8 +48,8 @@ export class AssetManagerService implements OnDestroy {
 
   loadEnvironment(cameras: Camera[]): void {
     // Set scene coloration
-    this._scene.clearColor = Color4.FromHexString(config.engine.env.clearHex);
-    this._scene.ambientColor = Color3.FromHexString(
+    this.scene.clearColor = Color4.FromHexString(config.engine.env.clearHex);
+    this.scene.ambientColor = Color3.FromHexString(
       config.engine.env.ambientHex
     );
 
@@ -56,16 +57,16 @@ export class AssetManagerService implements OnDestroy {
     // HDR
     let hdrTexture = CubeTexture.CreateFromPrefilteredData(
       `${ASSET_PATH}hdr/${config.engine.env.hdr.file}`,
-      this._scene
+      this.scene
     );
-    this._scene.environmentTexture = hdrTexture;
-    this._scene.environmentIntensity = config.engine.env.hdr.intensity;
+    this.scene.environmentTexture = hdrTexture;
+    this.scene.environmentIntensity = config.engine.env.hdr.intensity;
 
     // Directional Light
     this._sun = new DirectionalLight(
       'sun',
       config.engine.env.sun.dir,
-      this._scene
+      this.scene
     );
     this._sun.intensity = config.engine.env.sun.intensity;
     this._sun.diffuse = Color3.FromHexString(config.engine.env.sun.diffuse);
@@ -89,14 +90,14 @@ export class AssetManagerService implements OnDestroy {
     });
 
     // Set effects
-    const gl = new GlowLayer('glow', this._scene);
+    const gl = new GlowLayer('glow', this.scene);
     gl.intensity = 0.4;
   }
 
   loadDefaultBox(): void {
-    const box = MeshBuilder.CreateBox('box', {}, this._scene);
+    const box = MeshBuilder.CreateBox('box', {}, this.scene);
 
-    const pbrMat = new PBRMaterial('pbr', this._scene);
+    const pbrMat = new PBRMaterial('pbr', this.scene);
     pbrMat.albedoColor = Color3.FromHexString('#526278');
     pbrMat.roughness = 0.9;
     pbrMat.metallic = 0;
@@ -110,7 +111,7 @@ export class AssetManagerService implements OnDestroy {
     roughness: number = 0.9,
     metallic: number = 0
   ): PBRMaterial {
-    const mat = new PBRMaterial('pbr', this._scene);
+    const mat = new PBRMaterial('pbr', this.scene);
     mat.albedoColor =
       typeof albedo === 'string' ? Color3.FromHexString(albedo) : albedo;
     mat.ambientColor =
