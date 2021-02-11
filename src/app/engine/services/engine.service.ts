@@ -41,7 +41,7 @@ export class EngineService {
 
     /* Load Assets */
     this._ams.setScene(this.scene);
-    this._ams.loadEnvironment([this._cs.camera]);
+    this._ams.loadEnvironment();
     this._ams.loadDefaultBox();
   }
 

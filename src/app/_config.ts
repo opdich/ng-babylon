@@ -5,14 +5,20 @@ export const config = {
     env: {
       clearHex: '#ffffffff',
       ambientHex: '#ffffff',
-      hdr: {
-        file: 'photo_studio.env',
-        intensity: 1,
-      },
       sun: {
         diffuse: '#ffffff',
-        dir: new Vector3(1, -3, 0),
-        intensity: 0.3,
+        dir: new Vector3(1, -5, 0),
+        intensity: 1.0,
+      },
+      skybox: {
+        enable: false,
+        hex: '#f5c7d8',
+        size: 20,
+      },
+      ground: {
+        enable: false,
+        hex: '#f5c7d8',
+        size: 15,
       },
     },
     center_offset: {
@@ -34,9 +40,7 @@ export const config = {
       pan_min_z: -75,
     },
     settings: {
-      tonemap: TonemappingOperator.Photographic,
-      exposure: 2,
-      contrast: 1,
+      exposure: 0.6,
     },
   },
 };

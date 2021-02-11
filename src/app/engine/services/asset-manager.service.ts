@@ -12,6 +12,7 @@ import {
   DirectionalLight,
   MeshBuilder,
   PBRMaterial,
+  ShadowGenerator,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
@@ -28,7 +29,7 @@ export class AssetManagerService implements OnDestroy {
 
   private _sub: Subscription = new Subscription();
   private _sun: DirectionalLight;
-
+  private _shadowGenerator: ShadowGenerator;
   scene: Scene;
 
   constructor() {}
@@ -46,21 +47,24 @@ export class AssetManagerService implements OnDestroy {
     return this._isInit$.pipe(take(1));
   }
 
-  loadEnvironment(cameras: Camera[]): void {
+  loadEnvironment(): void {
     // Set scene coloration
     this.scene.clearColor = Color4.FromHexString(config.engine.env.clearHex);
     this.scene.ambientColor = Color3.FromHexString(
       config.engine.env.ambientHex
     );
 
-    // Set lighting
-    // HDR
-    let hdrTexture = CubeTexture.CreateFromPrefilteredData(
-      `${ASSET_PATH}hdr/${config.engine.env.hdr.file}`,
-      this.scene
-    );
-    this.scene.environmentTexture = hdrTexture;
-    this.scene.environmentIntensity = config.engine.env.hdr.intensity;
+    // Set Environment
+    this.scene.createDefaultLight();
+    this.scene.createDefaultEnvironment({
+      cameraExposure: config.camera.settings.exposure,
+      createSkybox: config.engine.env.skybox.enable,
+      skyboxSize: config.engine.env.skybox.size,
+      skyboxColor: Color3.FromHexString(config.engine.env.skybox.hex),
+      createGround: config.engine.env.ground.enable,
+      groundSize: config.engine.env.ground.size,
+      groundColor: Color3.FromHexString(config.engine.env.ground.hex),
+    });
 
     // Directional Light
     this._sun = new DirectionalLight(
@@ -70,24 +74,7 @@ export class AssetManagerService implements OnDestroy {
     );
     this._sun.intensity = config.engine.env.sun.intensity;
     this._sun.diffuse = Color3.FromHexString(config.engine.env.sun.diffuse);
-
-    // Set filters - needs to be done for each camera in scene
-    cameras.forEach((camera) => {
-      const fxaaProcess = new FxaaPostProcess('fxaa', 1.0, camera);
-      const tonemapProcess = new TonemapPostProcess(
-        'tonemap',
-        config.camera.settings.tonemap,
-        1,
-        camera
-      );
-      const postProcess = new ImageProcessingPostProcess(
-        'processing',
-        1.0,
-        camera
-      );
-      postProcess.contrast = config.camera.settings.contrast;
-      postProcess.exposure = config.camera.settings.exposure;
-    });
+    this._shadowGenerator = new ShadowGenerator(2048, this._sun);
 
     // Set effects
     const gl = new GlowLayer('glow', this.scene);
