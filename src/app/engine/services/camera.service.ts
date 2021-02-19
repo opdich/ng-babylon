@@ -99,45 +99,46 @@ export class CameraService {
     this.smoothFixAlphaBeta(true, alpha, duration);
     this.smoothFixAlphaBeta(false, beta, duration);
   }
-  rotate(duration: number = 400, onComplete: () => void = () => {}): void {
-    // Broadcast the final rotation to start
-    // Do this before so things can animate in sync
-    this._rotation$.next({
-      val: this.camera.alpha + Math.PI / 2,
-      duration: duration,
-    });
+  // rotate(duration: number = 400, onComplete: () => void = () => {}): void {
+  //   // Broadcast the final rotation to start
+  //   // Do this before so things can animate in sync
+  //   this._rotation$.next({
+  //     val: this.camera.alpha + Math.PI / 2,
+  //     duration: duration,
+  //   });
 
-    // Set the target to the middle of the screen
-    const canvas = this.scene.getEngine().getRenderingCanvas();
-    let ray = this.scene.createPickingRay(
-      canvas.width / 2,
-      canvas.height / 2,
-      this._identity,
-      this.camera,
-      false
-    );
+  //   // Set the target to the middle of the screen
+  //   const canvas = this.scene.getEngine().getRenderingCanvas();
+  //   let ray = this.scene.createPickingRay(
+  //     canvas.width / 2,
+  //     canvas.height / 2,
+  //     this._identity,
+  //     this.camera,
+  //     false
+  //   );
 
-    let distance = ray.intersectsPlane(this._plane);
-    //if the distance is none, return
-    if (distance === null) return;
+  //   let distance = ray.intersectsPlane(this._plane);
+  //   //if the distance is none, return
+  //   if (distance === null) return;
 
-    // Set the camera target
-    this.camera.target = ray.direction.scale(distance).add(ray.origin);
+  //   // Set the camera target
+  //   this.camera.target = ray.direction.scale(distance).add(ray.origin);
 
-    // THen rotate the camera about the center
-    Animation.CreateAndStartAnimation(
-      'rotateCamera',
-      this.camera,
-      'alpha',
-      30,
-      (duration / 1000) * 30,
-      this.camera.alpha,
-      this.camera.alpha + Math.PI / 2,
-      0,
-      this._ease,
-      onComplete
-    );
-  }
+  //   // THen rotate the camera about the center
+  //   Animation.CreateAndStartAnimation(
+  //     'rotateCamera',
+  //     this.camera,
+  //     'alpha',
+  //     30,
+  //     (duration / 1000) * 30,
+  //     this.camera.alpha,
+  //     this.camera.alpha + Math.PI / 2,
+  //     0,
+  //     this._ease,
+  //     onComplete
+  //   );
+  // }
+
   zoom(dir: number): void {
     this.camera.updateZoom(dir);
   }
@@ -164,7 +165,7 @@ export class CameraService {
     );
   }
 
-  getRotation$(): Observable<{ val: number; duration: number }> {
-    return this._rotation$.asObservable();
-  }
+  // getRotation$(): Observable<{ val: number; duration: number }> {
+  //   return this._rotation$.asObservable();
+  // }
 }
