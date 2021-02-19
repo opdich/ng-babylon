@@ -46,7 +46,7 @@ export class CameraService {
       config.camera.ortho.scale_factor,
       config.camera.ortho.scale_delta,
       config.camera.ortho.scale_upper_limit,
-      config.camera.ortho.scal_lower_limit,
+      config.camera.ortho.scale_lower_limit,
       config.camera.ortho.pan_max_x,
       config.camera.ortho.pan_min_x,
       config.camera.ortho.pan_max_z,
