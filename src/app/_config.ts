@@ -3,12 +3,15 @@ import { TonemappingOperator, Vector3 } from '@babylonjs/core';
 export const config = {
   engine: {
     env: {
-      clearHex: '#ffffffff',
-      ambientHex: '#ffffff',
+      clear_hex: '#ffffffff',
+      ambient_hex: '#ffffff',
       sun: {
         diffuse: '#ffffff',
         dir: new Vector3(1, -5, 0),
         intensity: 1.0,
+      },
+      default_light: {
+        intensity: 1,
       },
       skybox: {
         enable: false,
@@ -19,6 +22,10 @@ export const config = {
         enable: false,
         hex: '#f5c7d8',
         size: 15,
+      },
+      shadow: {
+        enable: true,
+        blur: 4,
       },
     },
     center_offset: {

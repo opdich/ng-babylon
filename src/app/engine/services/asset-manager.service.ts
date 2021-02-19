@@ -43,13 +43,15 @@ export class AssetManagerService implements OnDestroy {
 
   loadEnvironment(): void {
     // Set scene coloration
-    this.scene.clearColor = Color4.FromHexString(config.engine.env.clearHex);
+    this.scene.clearColor = Color4.FromHexString(config.engine.env.clear_hex);
     this.scene.ambientColor = Color3.FromHexString(
-      config.engine.env.ambientHex
+      config.engine.env.ambient_hex
     );
 
     // Set Environment
     this.scene.createDefaultLight();
+    this.scene.lights[0].intensity = config.engine.env.default_light.intensity;
+
     this.scene.createDefaultEnvironment({
       cameraExposure: config.camera.settings.exposure,
       createSkybox: config.engine.env.skybox.enable,
@@ -58,6 +60,7 @@ export class AssetManagerService implements OnDestroy {
       createGround: config.engine.env.ground.enable,
       groundSize: config.engine.env.ground.size,
       groundColor: Color3.FromHexString(config.engine.env.ground.hex),
+      enableGroundShadow: true,
     });
 
     // Directional Light
@@ -68,7 +71,12 @@ export class AssetManagerService implements OnDestroy {
     );
     this._sun.intensity = config.engine.env.sun.intensity;
     this._sun.diffuse = Color3.FromHexString(config.engine.env.sun.diffuse);
-    this._shadowGenerator = new ShadowGenerator(2048, this._sun);
+
+    // Shadows
+    this._shadowGenerator = new ShadowGenerator(1024, this._sun);
+    this._shadowGenerator.useBlurExponentialShadowMap =
+      config.engine.env.shadow.enable;
+    this._shadowGenerator.blurBoxOffset = config.engine.env.shadow.blur;
 
     // Set effects
     const gl = new GlowLayer('glow', this.scene);
