@@ -3,12 +3,7 @@ import {
   Scene,
   Color3,
   Color4,
-  CubeTexture,
   GlowLayer,
-  FxaaPostProcess,
-  TonemapPostProcess,
-  ImageProcessingPostProcess,
-  Camera,
   DirectionalLight,
   MeshBuilder,
   PBRMaterial,
@@ -40,7 +35,6 @@ export class AssetManagerService implements OnDestroy {
 
   setScene(scene: Scene): void {
     this.scene = scene;
-    this._isInit$.next(true);
   }
 
   checkInit$(): Observable<boolean> {
@@ -79,6 +73,9 @@ export class AssetManagerService implements OnDestroy {
     // Set effects
     const gl = new GlowLayer('glow', this.scene);
     gl.intensity = 0.4;
+
+    // Initialized
+    this._isInit$.next(true);
   }
 
   loadDefaultBox(): void {
