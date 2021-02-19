@@ -37,7 +37,7 @@ export class EngineService {
     this._cs.loadCamera(this.canvas, this.scene);
 
     // Start the depth renderer
-    this._drs.setRenderer(this.engine, this.scene, this._cs.camera);
+    this._drs.setRenderer(this.engine, this.scene);
 
     /* Load Assets */
     this._ams.setScene(this.scene);
