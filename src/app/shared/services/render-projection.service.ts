@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class DepthRendererService implements OnDestroy {
+export class RenderProjectionService implements OnDestroy {
   private _isInit$: ReplaySubject<boolean> = new ReplaySubject();
 
   private _engine: Engine;

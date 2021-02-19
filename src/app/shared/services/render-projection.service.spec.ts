@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DepthRendererService } from './depth-renderer.service';
+import { RenderProjectionService } from './render-projection.service';
 
 describe('DepthRendererService', () => {
-  let service: DepthRendererService;
+  let service: RenderProjectionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DepthRendererService);
+    service = TestBed.inject(RenderProjectionService);
   });
 
   it('should be created', () => {

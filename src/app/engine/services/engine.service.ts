@@ -1,7 +1,7 @@
 import { ElementRef, Injectable, NgZone } from '@angular/core';
 
 import { Engine, Scene } from '@babylonjs/core';
-import { DepthRendererService } from 'src/app/shared/services/depth-renderer.service';
+import { RenderProjectionService } from 'src/app/shared/services/render-projection.service';
 
 import { AssetManagerService } from './asset-manager.service';
 import { CameraService } from './camera.service';
@@ -21,7 +21,7 @@ export class EngineService {
     private _ngZone: NgZone,
     private _ams: AssetManagerService,
     private _cs: CameraService,
-    private _drs: DepthRendererService
+    private _rps: RenderProjectionService
   ) {}
 
   buildScene(canvas: ElementRef<HTMLCanvasElement>): void {
@@ -37,7 +37,7 @@ export class EngineService {
     this._cs.loadCamera(this.canvas, this.scene);
 
     // Start the depth renderer
-    this._drs.setRenderer(this.engine, this.scene);
+    this._rps.setRenderer(this.engine, this.scene);
 
     /* Load Assets */
     this._ams.setScene(this.scene);
