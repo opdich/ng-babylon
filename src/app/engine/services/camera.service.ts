@@ -25,10 +25,10 @@ export class CameraService {
     new Vector3(0, 0, 0),
     new Vector3(0, 1, 0)
   );
-  private _rotation$: Subject<{
-    val: number;
-    duration: number;
-  }> = new Subject();
+  // private _rotation$: Subject<{
+  //   val: number;
+  //   duration: number;
+  // }> = new Subject();
 
   constructor() {
     this.init();
