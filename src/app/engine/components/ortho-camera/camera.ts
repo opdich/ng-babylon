@@ -47,6 +47,10 @@ export class OrthoCamera extends ArcRotateCamera {
   }
 
   updateOrtho(isResetToGridSize = false): void {
+    // Get the starting alpha + beta
+    const alpha = this.alpha;
+    const beta = this.beta;
+
     // Get the adjustment factor - based on the height of the canvas
     let boundingRect: DOMRect = this._canvas.getBoundingClientRect();
 
@@ -66,8 +70,8 @@ export class OrthoCamera extends ArcRotateCamera {
     this.setTarget(this.target);
 
     // Reset the angles
-    this.alpha = this._alphaBase;
-    this.beta = this._betaBase;
+    this.alpha = alpha;
+    this.beta = beta;
   }
 
   updateZoom(delta: number) {
