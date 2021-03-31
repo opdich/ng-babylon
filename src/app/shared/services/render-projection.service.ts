@@ -32,28 +32,40 @@ export class RenderProjectionService implements OnDestroy {
 
   addOBR(
     inputCallback: () => Vector3[],
-    outputCallback: (screenCoords: Vector3, i: number) => void
+    outputCallback: (screenCoords: Vector3, i: number) => void,
+    isOnce: boolean = false
   ): void {
     this.checkInit$().subscribe(() => {
       this._ngZone.runOutsideAngular(() => {
-        this._scene.onBeforeRenderObservable.add(() => {
-          inputCallback().forEach((coord, i) => {
-            let posInViewProj = Vector3.TransformCoordinates(
-              coord,
-              this._scene.getTransformMatrix()
+        isOnce
+          ? this._scene.onBeforeRenderObservable.addOnce(() =>
+              this.handleOBR(inputCallback, outputCallback)
+            )
+          : this._scene.onBeforeRenderObservable.add(() =>
+              this.handleOBR(inputCallback, outputCallback)
             );
-            let screenCoords = posInViewProj
-              .multiplyByFloats(0.5, -0.5, 1.0)
-              .add(new Vector3(0.5, 0.5, 0.0))
-              .multiplyByFloats(
-                this._engine.getRenderWidth(),
-                this._engine.getRenderHeight(),
-                1
-              );
-            outputCallback(screenCoords, i);
-          });
-        });
       });
+    });
+  }
+
+  handleOBR(
+    inputCallback: () => Vector3[],
+    outputCallback: (screenCoords: Vector3, i: number) => void
+  ): void {
+    inputCallback().forEach((coord, i) => {
+      let posInViewProj = Vector3.TransformCoordinates(
+        coord,
+        this._scene.getTransformMatrix()
+      );
+      let screenCoords = posInViewProj
+        .multiplyByFloats(0.5, -0.5, 1.0)
+        .add(new Vector3(0.5, 0.5, 0.0))
+        .multiplyByFloats(
+          this._engine.getRenderWidth(),
+          this._engine.getRenderHeight(),
+          1
+        );
+      outputCallback(screenCoords, i);
     });
   }
 }
