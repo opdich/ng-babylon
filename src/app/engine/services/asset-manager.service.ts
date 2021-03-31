@@ -24,7 +24,7 @@ export class AssetManagerService implements OnDestroy {
 
   private _sub: Subscription = new Subscription();
   private _sun: DirectionalLight;
-  private _shadowGenerator: ShadowGenerator;
+  public shadowGenerator: ShadowGenerator;
   scene: Scene;
 
   constructor() {}
@@ -73,10 +73,10 @@ export class AssetManagerService implements OnDestroy {
     this._sun.diffuse = Color3.FromHexString(config.engine.env.sun.diffuse);
 
     // Shadows
-    this._shadowGenerator = new ShadowGenerator(1024, this._sun);
-    this._shadowGenerator.useBlurExponentialShadowMap =
+    this.shadowGenerator = new ShadowGenerator(1024, this._sun);
+    this.shadowGenerator.useBlurExponentialShadowMap =
       config.engine.env.shadow.enable;
-    this._shadowGenerator.blurBoxOffset = config.engine.env.shadow.blur;
+    this.shadowGenerator.blurBoxOffset = config.engine.env.shadow.blur;
 
     // Set effects
     const gl = new GlowLayer('glow', this.scene);
